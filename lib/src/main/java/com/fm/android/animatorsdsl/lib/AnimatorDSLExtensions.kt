@@ -1,6 +1,7 @@
 package com.fm.android.animatorsdsl.lib
 
 import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.view.animation.Interpolator
 
@@ -32,6 +33,9 @@ open class PlayTogetherBuilder {
     val animators: MutableList<Animator> = mutableListOf()
     var interpolator: Interpolator? = null
 
+    private var onAnimationStartAction: (() -> Unit)? = null
+    private var onAnimationEndAction: (() -> Unit)? = null
+
     open fun build(): AnimatorSet {
         return AnimatorSet().apply {
             injectAnimatorProperties()
@@ -42,6 +46,18 @@ open class PlayTogetherBuilder {
     protected fun AnimatorSet.injectAnimatorProperties() {
         this@PlayTogetherBuilder.duration?.let { duration = it }
         this@PlayTogetherBuilder.interpolator?.let { interpolator = it }
+
+        if (onAnimationStartAction != null || onAnimationEndAction != null) {
+            addListener(ActionAnimatorListener(onAnimationStartAction, onAnimationEndAction))
+        }
+    }
+
+    fun onAnimationStart(action: (() -> Unit)?) {
+        onAnimationStartAction = action
+    }
+
+    fun onAnimationEnd(action: (() -> Unit)?) {
+        onAnimationEndAction = action
     }
 
     fun play(block: () -> Animator) {
@@ -55,4 +71,19 @@ open class PlayTogetherBuilder {
     fun playSequentially(block: PlaySequentiallyBuilder.() -> Unit) {
         this.animators.add(PlaySequentiallyBuilder().apply(block).build())
     }
+}
+
+class ActionAnimatorListener(private val startAction: (() -> Unit)?,
+                             private val endAction: (() -> Unit)?) : AnimatorListenerAdapter() {
+
+    override fun onAnimationEnd(animation: Animator?) {
+        super.onAnimationEnd(animation)
+        endAction?.invoke()
+    }
+
+    override fun onAnimationStart(animation: Animator?) {
+        super.onAnimationStart(animation)
+        startAction?.invoke()
+    }
+
 }

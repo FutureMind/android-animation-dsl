@@ -3,6 +3,7 @@ package com.fm.android.animatorsdsl.app
 import android.os.Bundle
 import android.support.v4.view.animation.FastOutSlowInInterpolator
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.OvershootInterpolator
 import com.fm.android.animatorsdsl.R
@@ -25,6 +26,10 @@ class MainActivity : AppCompatActivity() {
 
         playSequentially {
 
+            onAnimationStart { log("Start sequence") }
+
+            onAnimationEnd { log("End sequence") }
+
             play { view1 translateTo container.topLeft() }
 
             play { view2 translateTo container.bottomLeft() }
@@ -34,6 +39,10 @@ class MainActivity : AppCompatActivity() {
                 duration = 5000L
 
                 interpolator = FastOutSlowInInterpolator()
+
+                onAnimationStart { log("Start together") }
+
+                onAnimationEnd { log("End together") }
 
                 play { view1 translateTo container.topRight() }
 
@@ -54,5 +63,9 @@ class MainActivity : AppCompatActivity() {
             play { view1 alphaTo 1f }
             play { view2 alphaTo 1f }
         }.start()
+    }
+
+    private fun log(message: String) {
+        Log.d("AnimatorsDSLLog", message)
     }
 }
