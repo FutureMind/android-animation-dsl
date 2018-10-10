@@ -4,13 +4,13 @@ import android.animation.Animator
 import android.animation.AnimatorSet
 import android.view.animation.Interpolator
 
-fun animateTogether(block: AnimateTogetherBuilder.() -> Unit): AnimatorSet {
+fun playTogether(block: AnimateTogetherBuilder.() -> Unit): AnimatorSet {
     val set = AnimateTogetherBuilder()
             .apply(block)
     return set.build()
 }
 
-fun animateSequence(block: AnimateSequenceBuilder.() -> Unit): AnimatorSet {
+fun playSequentially(block: AnimateSequenceBuilder.() -> Unit): AnimatorSet {
     val set = AnimateSequenceBuilder()
             .apply(block)
     return set.build()
@@ -44,15 +44,15 @@ open class AnimateTogetherBuilder {
         this@AnimateTogetherBuilder.interpolator?.let { interpolator = it }
     }
 
-    fun animate(block: () -> Animator) {
+    fun play(block: () -> Animator) {
         this.animators.add(block())
     }
 
-    fun animateTogether(block: AnimateTogetherBuilder.() -> Unit) {
+    fun playTogether(block: AnimateTogetherBuilder.() -> Unit) {
         this.animators.add(AnimateTogetherBuilder().apply(block).build())
     }
 
-    fun animateSequence(block: AnimateSequenceBuilder.() -> Unit) {
+    fun playSequentially(block: AnimateSequenceBuilder.() -> Unit) {
         this.animators.add(AnimateSequenceBuilder().apply(block).build())
     }
 }

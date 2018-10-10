@@ -22,28 +22,28 @@ class MainActivity : AppCompatActivity() {
         view1.alpha = .5f
         view2.alpha = .5f
 
-        animateSequence {
+        playTogether {
 
-            animate { view1 translateTo container.topLeft() }
+            play { view1 translateTo container.topLeft() }
 
-            animate { view2 translateTo container.bottomLeft() }
+            play { view2 translateTo container.bottomLeft() }
 
-            animateTogether {
+            playTogether {
 
                 duration = 5000L
 
                 interpolator = FastOutSlowInInterpolator()
 
-                animate { view1 translateTo container.topRight() }
+                play { view1 translateTo container.topRight() }
 
-                animate { view2 translateTo container.bottomRight() }
+                play { view2 translateTo container.bottomRight() }
             }
 
-            animateTogether {
+            playTogether {
 
-                animate { view1 translateTo container.center() withDuration 2000 withInterpolator OvershootInterpolator() }
+                play { view1 translateTo container.center() withDuration 2000 withInterpolator OvershootInterpolator() }
 
-                animate { view2 translateTo container.center() withDuration 2000 withInterpolator AccelerateDecelerateInterpolator() }
+                play { view2 translateTo container.center() withDuration 2000 withInterpolator AccelerateDecelerateInterpolator() }
             }
 
         }.start()
