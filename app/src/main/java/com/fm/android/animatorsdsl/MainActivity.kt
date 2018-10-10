@@ -30,12 +30,16 @@ class MainActivity : AppCompatActivity() {
 
             animateTogether {
 
+                duration = 5000L
+
+                interpolator = FastOutSlowInInterpolator()
+
                 animate { view1 translateTo container.topRight() }
 
                 animate { view2 translateTo container.bottomRight() }
             }
 
-            animateTogether{
+            animateTogether {
 
                 animate { view1 translateTo container.center() withDuration 2000 withInterpolator OvershootInterpolator() }
 

@@ -40,7 +40,7 @@ class AnimateTogetherBuilder : AnimatorBuilder() {
 }
 
 open class AnimatorBuilder {
-    var duration: Long = -1L
+    var duration: Long? = null
     val animators: MutableList<Animator> = mutableListOf()
     var interpolator: Interpolator? = null
 
@@ -51,16 +51,8 @@ open class AnimatorBuilder {
             }
 
     protected fun AnimatorSet.initAnimationProperties() {
-        if (this@AnimatorBuilder.duration != -1L) {
-            duration = this@AnimatorBuilder.duration
-        }
-        if (this@AnimatorBuilder.interpolator != null) {
-            interpolator = this@AnimatorBuilder.interpolator
-        }
-    }
-
-    fun withInterpolator(block: () -> Interpolator) {
-        interpolator = block()
+        this@AnimatorBuilder.duration?.let { duration = it }
+        this@AnimatorBuilder.interpolator?.let { interpolator = it }
     }
 
     fun animate(block: () -> Animator) {
