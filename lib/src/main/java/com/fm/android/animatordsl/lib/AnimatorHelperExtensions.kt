@@ -1,4 +1,4 @@
-package com.fm.android.animatorsdsl
+package com.fm.android.animatordsl.lib
 
 import android.animation.Animator
 import android.animation.AnimatorSet

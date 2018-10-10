@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.support.v4.view.animation.FastOutSlowInInterpolator
 import android.support.v7.app.AppCompatActivity
 import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.AnticipateOvershootInterpolator
 import android.view.animation.OvershootInterpolator
+import com.fm.android.animatordsl.lib.*
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {

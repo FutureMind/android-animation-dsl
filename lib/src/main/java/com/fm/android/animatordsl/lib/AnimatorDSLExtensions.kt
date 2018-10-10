@@ -1,12 +1,8 @@
-package com.fm.android.animatorsdsl
+package com.fm.android.animatordsl.lib
 
 import android.animation.Animator
 import android.animation.AnimatorSet
-import android.animation.ObjectAnimator
-import android.animation.ValueAnimator
-import android.view.View
 import android.view.animation.Interpolator
-import android.view.animation.LinearInterpolator
 
 fun animateTogether(block: AnimateTogetherBuilder.() -> Unit): AnimatorSet {
     val set = AnimateTogetherBuilder()
@@ -21,7 +17,7 @@ fun animateSequence(block: AnimateSequenceBuilder.() -> Unit): AnimatorSet {
 }
 
 
-class AnimateSequenceBuilder : AnimatorBuilder() {
+class AnimateSequenceBuilder : AnimateTogetherBuilder() {
     override fun build(): AnimatorSet {
         return AnimatorSet().apply {
             initAnimationProperties()
@@ -30,29 +26,22 @@ class AnimateSequenceBuilder : AnimatorBuilder() {
     }
 }
 
-class AnimateTogetherBuilder : AnimatorBuilder() {
-    override fun build(): AnimatorSet {
+
+open class AnimateTogetherBuilder {
+    var duration: Long? = null
+    val animators: MutableList<Animator> = mutableListOf()
+    var interpolator: Interpolator? = null
+
+    open fun build(): AnimatorSet {
         return AnimatorSet().apply {
             initAnimationProperties()
             playTogether(animators)
         }
     }
-}
-
-open class AnimatorBuilder {
-    var duration: Long? = null
-    val animators: MutableList<Animator> = mutableListOf()
-    var interpolator: Interpolator? = null
-
-    open fun build(): AnimatorSet = AnimatorSet()
-            .apply {
-                initAnimationProperties()
-                playTogether(animators)
-            }
 
     protected fun AnimatorSet.initAnimationProperties() {
-        this@AnimatorBuilder.duration?.let { duration = it }
-        this@AnimatorBuilder.interpolator?.let { interpolator = it }
+        this@AnimateTogetherBuilder.duration?.let { duration = it }
+        this@AnimateTogetherBuilder.interpolator?.let { interpolator = it }
     }
 
     fun animate(block: () -> Animator) {
