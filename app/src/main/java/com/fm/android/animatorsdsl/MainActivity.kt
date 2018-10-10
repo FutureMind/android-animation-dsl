@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         view1.alpha = .5f
         view2.alpha = .5f
 
-        playTogether {
+        playSequentially {
 
             play { view1 translateTo container.topLeft() }
 
@@ -46,6 +46,12 @@ class MainActivity : AppCompatActivity() {
                 play { view2 translateTo container.center() withDuration 2000 withInterpolator AccelerateDecelerateInterpolator() }
             }
 
+        }.start()
+
+        playTogether {
+            duration = 1000L
+            play { view1 alphaTo 1f }
+            play { view2 alphaTo 1f }
         }.start()
     }
 }
