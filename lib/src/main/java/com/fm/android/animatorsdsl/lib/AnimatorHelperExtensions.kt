@@ -19,6 +19,11 @@ infix fun View.translateTo(position: PointF): AnimatorSet {
     return animatorSet
 }
 
+fun View.resetTranslationValues() {
+    translationX = 0f
+    translationY = 0f
+}
+
 infix fun View.alphaTo(alphaValue: Float) = ObjectAnimator.ofFloat(this, View.ALPHA.name, alphaValue)
 
 infix fun Animator.withInterpolator(newInterpolator: Interpolator) = this.apply { interpolator = newInterpolator }

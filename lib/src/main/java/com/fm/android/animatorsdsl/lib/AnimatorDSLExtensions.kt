@@ -29,6 +29,7 @@ class PlaySequentiallyBuilder : PlayTogetherBuilder() {
 
 
 open class PlayTogetherBuilder {
+    var startDelay: Long? = null
     var duration: Long? = null
     val animators: MutableList<Animator> = mutableListOf()
     var interpolator: Interpolator? = null
@@ -45,6 +46,7 @@ open class PlayTogetherBuilder {
 
     protected fun AnimatorSet.injectAnimatorProperties() {
         this@PlayTogetherBuilder.duration?.let { duration = it }
+        this@PlayTogetherBuilder.startDelay?.let { startDelay = it }
         this@PlayTogetherBuilder.interpolator?.let { interpolator = it }
 
         if (onAnimationStartAction != null || onAnimationEndAction != null) {
