@@ -6,7 +6,7 @@
 	android:layout_height="match_parent"
 	android:orientation="vertical"
 	android:clipChildren="false"
-	tools:context=".MainActivity">
+	tools:context=".app.MainActivity">
 
 	<Button
 		android:id="@+id/start"
