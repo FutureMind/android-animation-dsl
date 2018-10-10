@@ -4,55 +4,55 @@ import android.animation.Animator
 import android.animation.AnimatorSet
 import android.view.animation.Interpolator
 
-fun playTogether(block: AnimateTogetherBuilder.() -> Unit): AnimatorSet {
-    val set = AnimateTogetherBuilder()
+fun playTogether(block: PlayTogetherBuilder.() -> Unit): AnimatorSet {
+    val set = PlayTogetherBuilder()
             .apply(block)
     return set.build()
 }
 
-fun playSequentially(block: AnimateSequenceBuilder.() -> Unit): AnimatorSet {
-    val set = AnimateSequenceBuilder()
+fun playSequentially(block: PlaySequentiallyBuilder.() -> Unit): AnimatorSet {
+    val set = PlaySequentiallyBuilder()
             .apply(block)
     return set.build()
 }
 
 
-class AnimateSequenceBuilder : AnimateTogetherBuilder() {
+class PlaySequentiallyBuilder : PlayTogetherBuilder() {
     override fun build(): AnimatorSet {
         return AnimatorSet().apply {
-            initAnimationProperties()
+            injectAnimatorProperties()
             playSequentially(animators)
         }
     }
 }
 
 
-open class AnimateTogetherBuilder {
+open class PlayTogetherBuilder {
     var duration: Long? = null
     val animators: MutableList<Animator> = mutableListOf()
     var interpolator: Interpolator? = null
 
     open fun build(): AnimatorSet {
         return AnimatorSet().apply {
-            initAnimationProperties()
+            injectAnimatorProperties()
             playTogether(animators)
         }
     }
 
-    protected fun AnimatorSet.initAnimationProperties() {
-        this@AnimateTogetherBuilder.duration?.let { duration = it }
-        this@AnimateTogetherBuilder.interpolator?.let { interpolator = it }
+    protected fun AnimatorSet.injectAnimatorProperties() {
+        this@PlayTogetherBuilder.duration?.let { duration = it }
+        this@PlayTogetherBuilder.interpolator?.let { interpolator = it }
     }
 
     fun play(block: () -> Animator) {
         this.animators.add(block())
     }
 
-    fun playTogether(block: AnimateTogetherBuilder.() -> Unit) {
-        this.animators.add(AnimateTogetherBuilder().apply(block).build())
+    fun playTogether(block: PlayTogetherBuilder.() -> Unit) {
+        this.animators.add(PlayTogetherBuilder().apply(block).build())
     }
 
-    fun playSequentially(block: AnimateSequenceBuilder.() -> Unit) {
-        this.animators.add(AnimateSequenceBuilder().apply(block).build())
+    fun playSequentially(block: PlaySequentiallyBuilder.() -> Unit) {
+        this.animators.add(PlaySequentiallyBuilder().apply(block).build())
     }
 }
