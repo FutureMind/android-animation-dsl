@@ -1,7 +1,7 @@
 # Android Animators DSL
 Small yet very useful set of Kotlin extension functions to build Android animations more easy and straightforward.
 
-## Usuage:
+## Usage:
 
 ```kotlin
 playSequentially {
