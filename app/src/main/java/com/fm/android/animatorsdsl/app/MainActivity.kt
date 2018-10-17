@@ -27,31 +27,24 @@ class MainActivity : AppCompatActivity() {
 
         playSequentially {
 
-            onAnimationEnd { log("Animation finished") }
-
+            onAnimationEnd { /* End of animation */ }
             play { view1 translateTo container.topLeft() }
-
             play { view2 translateTo container.bottomLeft() }
 
             playTogether {
                 startDelay = 2000L
-
                 duration = 1000L
-
                 interpolator = FastOutSlowInInterpolator()
 
                 play { view1 translateTo container.topRight() }
-
                 play { view2 translateTo container.bottomRight() }
             }
 
             playTogether {
 
                 play { view1 translateTo container.center() withDuration 2000 withInterpolator OvershootInterpolator() }
-
                 play { view2 translateTo container.center() withDuration 2000 withInterpolator AccelerateDecelerateInterpolator() }
             }
-
         }.start()
 
         playTogether {
