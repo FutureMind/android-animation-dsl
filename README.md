@@ -7,6 +7,8 @@ Small yet very useful set of Kotlin extension functions to build Android animati
 playSequentially {
             onAnimationEnd { /* Animation finished */) }
 
+            play { /* Animator object */ }
+            play { ObjectAnimator.ofFloat(view1, View.ALPHA, 0f, 1f) }
             play { view1 translateTo container.topLeft() }
             play { view2 translateTo container.bottomLeft() }
 
